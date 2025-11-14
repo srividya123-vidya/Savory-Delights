@@ -73,19 +73,18 @@
 <ul id="orderHistoryList"></ul>
 <h2 class="section-title">📜 Order History</h2>
 <ul id="orderHistoryList">
-  <li style="text-align:center; color:white;">No orders yet. Your previous orders will appear here!</li>
+  <li style="text-align:center; color:black;">No orders yet. Your previous orders will appear here!</li>
 </ul>
 <button onclick="clearOrders()">Clear Order History</button>
 
-<!-- 💖 WISHLIST SECTION -->
 <h2 class="section-title">💖 Your Wishlist</h2>
-<div id="wishlist-details">
-  <p style="text-align:center; color:white;">Your wishlist is empty. Add your favorite dishes here!</p>
-</div>
+<div id="wishlist-details"></div>
+<p id="wishlist-empty" style="text-align:center; color:black;">Your wishlist is empty. Add your favorite dishes here!</p>
+
 <section>
 <h2 class="section-title">🛒 Your Cart</h2>
 <div id="bill-details">
-  <p style="text-align:center; color:white;">Your cart is empty. Add items to see the bill details!</p>
+  <p style="text-align:center; color:black;">Your cart is empty. Add items to see the bill details!</p>
 </div>
   <p id="total" style="color: red;"><b>Total: ₹0</b></p>
 
@@ -504,6 +503,22 @@ function updateBill() {
 
 // 💖 Wishlist
 let wishlist = [];
+
+
+function updateWishlist() {
+  const wishlistDiv = document.getElementById("wishlist-details");
+
+  if (wishlist.length === 0) {
+    wishlistDiv.innerHTML = '<p style="text-align:center; color:white;">Your wishlist is empty. Add your favorite dishes here!</p>';
+    return;
+  }
+
+  let wishlistHTML = "";
+  wishlist.forEach(w => {
+    wishlistHTML += `<p>${w.item} — ₹${w.price} <button onclick="removeFromWishlist('${w.item}')">Remove</button></p>`;
+  });
+  wishlistDiv.innerHTML = wishlistHTML;
+}
 
 function addToWishlist(item, price) {
   const existingItem = wishlist.find(w => w.item === item);
